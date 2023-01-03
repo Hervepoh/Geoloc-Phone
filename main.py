@@ -4,12 +4,20 @@ from phonenumbers import carrier
 from phonenumbers import timezone
 from opencage.geocoder import OpenCageGeocode
 import folium
+from dotenv import load_dotenv
+import os
 
-# Get the country
-number = "+237677782226"
+# will first look for a .env file and if it finds one, it will load the environment variables
+load_dotenv()
+OPENCAGE_API_KEY = os.getenv('OPENCAGE_API_KEY')
+
+number = input("Entrer a phone number : ")
 lang = "en"
-number = phonenumbers.parse(number)  # Parsing String to Phone number
+
+# Parsing String to Phone number
+number = phonenumbers.parse(number)
 print(number)
+# Get the country
 localisation = geocoder.description_for_number(number, lang)
 print(localisation)
 
@@ -21,7 +29,7 @@ operator = carrier.name_for_number(number, lang)
 print(operator)
 
 # Find latitude and longitude
-key = '651535c451da497a892f2fcab4d6678a'
+key = OPENCAGE_API_KEY
 geocoder = OpenCageGeocode(key)
 
 query = str(localisation)  # "82 Clergywomen Road, London"
